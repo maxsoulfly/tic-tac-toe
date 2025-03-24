@@ -13,14 +13,6 @@ const GameBoard = (function () {
 		}
 	};
 
-	const createPlayer = (name, mark) => {
-		const getName = () => name;
-		const getMark = () => mark;
-		return {
-			getName,
-			getMark
-		}
-	}
 
 	const formatRow = (startIndex) => {
 		return `${board[startIndex]} | ${board[startIndex + 1]} | ${
@@ -42,7 +34,18 @@ const GameBoard = (function () {
 		updateACell,
 		resetBoard,
 		printBoard,
+		getCell,
 	};
 })();
+
+
+const createPlayer = (name, mark) => {
+	const getName = () => name;
+	const getMark = () => mark;
+	return {
+		getName,
+		getMark
+	}
+}
 
 GameBoard.printBoard();

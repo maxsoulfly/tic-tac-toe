@@ -13,13 +13,16 @@ const GameBoard = (function () {
 		}
 	};
 
+	const formatRow = (startIndex) => {
+		return `${board[startIndex]} | ${board[startIndex + 1]} | ${
+			board[startIndex + 2]
+		} `;
+	};
 	const printBoard = () => {
 		console.log("  0   1   2");
 		let row = 0;
 		for (let i = 0; i < board.length; i += 3) {
-			console.log(
-				`${row} ${board[i]} | ${board[i + 1]} | ${board[i + 2]} `
-			);
+			console.log(`${row} ${formatRow(i)}`);
 			if (i == 0 || i == 3) console.log(` ---+---+---`);
 			row++;
 		}

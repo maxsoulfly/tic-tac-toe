@@ -14,9 +14,14 @@ const GameBoard = (function () {
 	};
 
 	const printBoard = () => {
+		console.log("  0   1   2");
+		let row = 0;
 		for (let i = 0; i < board.length; i += 3) {
-			console.log(` ${board[i]} | ${board[i + 1]} | ${board[i + 2]} `);
-			if (i == 0 || i == 3) console.log(`---+---+---`);
+			console.log(
+				`${row} ${board[i]} | ${board[i + 1]} | ${board[i + 2]} `
+			);
+			if (i == 0 || i == 3) console.log(` ---+---+---`);
+			row++;
 		}
 	};
 

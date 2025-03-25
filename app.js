@@ -1,5 +1,5 @@
 const GameBoard = (function () {
-	let board = ["X", "X", "X", "", "", "", "", "", ""];
+	let board = ["", "", "", "", "", "", "", "", ""];
 
 	const getBoard = () => board;
 	const getCell = (index) => board[index];
@@ -71,11 +71,11 @@ const GameController = (function () {
 		GameBoard.updateACell(index, mark);
 		GameBoard.printBoard();
 		togglePlayer();
-		checkWinner();
+		checkWinner(mark);
 		return true;
 	};
 
-	const checkWinner = () => {
+	const checkWinner = (mark) => {
 		const winningCombinations = [
 			[0, 1, 2], // Top row
 			[3, 4, 5], // Middle row
@@ -92,7 +92,7 @@ const GameController = (function () {
 		for (let combo of winningCombinations) {
 			const [a, b, c] = combo;
 			if (
-				!GameBoard.isEmptyCell(board[a]) &&
+				board[a] === mark &&
 				board[a] === board[b] &&
 				board[a] === board[c]
 			) {

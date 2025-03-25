@@ -125,21 +125,29 @@ const GameController = (function () {
 		activePlayer = player1;
 	};
 
-	const init = () => {};
+	const isGameOver = () => gameOver;
 
 	return {
-		init,
 		getActivePlayer,
 		getPlayers,
 		togglePlayer,
 		playRound,
 		resetGame,
+		isGameOver,
 	};
 })();
 
 const startGame = () => {
 	GameController.resetGame();
 	GameBoard.printBoard();
+
+	do {
+		let userInput = prompt(
+			`${GameController.getActivePlayer().getName()}, enter a cell index (0–8):`
+		);
+		let index = parseInt(userInput);
+		GameController.playRound(index);
+	} while (!GameController.isGameOver());
 };
 
 startGame();

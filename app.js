@@ -137,4 +137,9 @@ const GameController = (function () {
 	};
 })();
 
-GameBoard.printBoard();
+const startGame = () => {
+	GameController.resetGame();
+	GameBoard.printBoard();
+};
+
+startGame();

@@ -70,26 +70,28 @@ const GameController = (function () {
 		if (gameOver) return false;
 
 		const mark = getActivePlayer().getMark();
-		if (!GameBoard.isEmptyCell(index)) return false;
+		if (!GameBoard.isEmptyCell(index)) return "invalid";
 
 		GameBoard.updateACell(index, mark);
 		GameBoard.printBoard();
-		checkWinner(mark, getActivePlayer().getName());
+
+		if (checkWinner(mark)) return "win";
+		if (checkDraw()) return "draw";
 
 		if (!gameOver) togglePlayer();
-
-		return true;
+		return "next";
 	};
 
 	const checkDraw = () => {
 		const board = GameBoard.getBoard();
 
 		if (!board.includes("") && !gameOver) {
-			console.log("It's a draw!");
 			gameOver = true;
+			return true;
 		}
+		return false;
 	};
-	const checkWinner = (mark, playerName) => {
+	const checkWinner = (mark) => {
 		const winningCombinations = [
 			[0, 1, 2], // Top row
 			[3, 4, 5], // Middle row
@@ -110,13 +112,12 @@ const GameController = (function () {
 				board[a] === board[b] &&
 				board[a] === board[c]
 			) {
-				console.log(`Player ${playerName} wins!`);
 				gameOver = true;
-				return;
+				return true;
 			}
 		}
 
-		checkDraw();
+		return false;
 	};
 
 	const resetGame = () => {

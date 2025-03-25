@@ -74,12 +74,14 @@ const GameController = (function () {
 
 		GameBoard.updateACell(index, mark);
 		GameBoard.printBoard();
-		checkWinner(activePlayer);
-		togglePlayer();
+		checkWinner(mark, getActivePlayer().getName());
+
+		if (!gameOver) togglePlayer();
+
 		return true;
 	};
 
-	const checkWinner = (player) => {
+	const checkWinner = (mark, playerName) => {
 		const winningCombinations = [
 			[0, 1, 2], // Top row
 			[3, 4, 5], // Middle row
@@ -96,11 +98,11 @@ const GameController = (function () {
 		for (let combo of winningCombinations) {
 			const [a, b, c] = combo;
 			if (
-				board[a] === player.mark &&
+				board[a] === mark &&
 				board[a] === board[b] &&
 				board[a] === board[c]
 			) {
-				console.log(`Player ${player.name} wins!`);
+				console.log(`Player ${playerName} wins!`);
 				gameOver = true;
 			}
 		}

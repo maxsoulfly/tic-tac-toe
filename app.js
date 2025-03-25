@@ -81,6 +81,14 @@ const GameController = (function () {
 		return true;
 	};
 
+	const checkDraw = () => {
+		const board = GameBoard.getBoard();
+
+		if (!board.includes("") && !gameOver) {
+			console.log("It's a draw!");
+			gameOver = true;
+		}
+	};
 	const checkWinner = (mark, playerName) => {
 		const winningCombinations = [
 			[0, 1, 2], // Top row
@@ -104,8 +112,11 @@ const GameController = (function () {
 			) {
 				console.log(`Player ${playerName} wins!`);
 				gameOver = true;
+				return;
 			}
 		}
+
+		checkDraw();
 	};
 
 	const resetGame = () => {
@@ -122,6 +133,7 @@ const GameController = (function () {
 		getPlayers,
 		togglePlayer,
 		playRound,
+		resetGame,
 	};
 })();
 

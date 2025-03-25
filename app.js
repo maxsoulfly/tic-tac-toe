@@ -56,6 +56,7 @@ const GameController = (function () {
 	const player2 = createPlayer("player2", "O");
 
 	let activePlayer = player1;
+	let gameOver = false;
 
 	const getActivePlayer = () => activePlayer;
 	const getPlayers = () => [player1, player2];
@@ -66,16 +67,19 @@ const GameController = (function () {
 	};
 
 	const playRound = (index) => {
+		if (gameOver) return false;
+
 		const mark = getActivePlayer().getMark();
 		if (!GameBoard.isEmptyCell(index)) return false;
+
 		GameBoard.updateACell(index, mark);
 		GameBoard.printBoard();
+		checkWinner(activePlayer);
 		togglePlayer();
-		checkWinner(mark);
 		return true;
 	};
 
-	const checkWinner = (mark) => {
+	const checkWinner = (player) => {
 		const winningCombinations = [
 			[0, 1, 2], // Top row
 			[3, 4, 5], // Middle row
@@ -92,13 +96,20 @@ const GameController = (function () {
 		for (let combo of winningCombinations) {
 			const [a, b, c] = combo;
 			if (
-				board[a] === mark &&
+				board[a] === player.mark &&
 				board[a] === board[b] &&
 				board[a] === board[c]
 			) {
-				console.log(`Player ${board[a]} wins!`);
+				console.log(`Player ${player.name} wins!`);
+				gameOver = true;
 			}
 		}
+	};
+
+	const resetGame = () => {
+		gameOver = false;
+		GameBoard.resetBoard();
+		activePlayer = player1;
 	};
 
 	const init = () => {};

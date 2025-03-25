@@ -148,6 +148,12 @@ const startGame = () => {
 		let index = parseInt(userInput);
 		GameController.playRound(index);
 	} while (!GameController.isGameOver());
+
+	if (confirm("Play again?")) {
+		startGame(); // restart the game
+	} else {
+		alert("Thanks for playing!");
+	}
 };
 
 startGame();

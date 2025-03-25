@@ -13,7 +13,6 @@ const GameBoard = (function () {
 		}
 	};
 
-
 	const formatRow = (startIndex) => {
 		return `${board[startIndex]} | ${board[startIndex + 1]} | ${
 			board[startIndex + 2]
@@ -38,14 +37,36 @@ const GameBoard = (function () {
 	};
 })();
 
-
 const createPlayer = (name, mark) => {
 	const getName = () => name;
 	const getMark = () => mark;
 	return {
 		getName,
-		getMark
-	}
-}
+		getMark,
+	};
+};
+
+const GameController = (function () {
+	const player1 = createPlayer("player1", "X");
+	const player2 = createPlayer("player2", "O");
+
+	let activePlayer = player1;
+
+	const getActivePlayer = () => activePlayer;
+	const getPlayers = () => [player1, player2];
+
+	const togglePlayer = () => {
+		if (activePlayer === player1) activePlayer = player2;
+		else activePlayer = player1;
+	};
+	const init = () => {};
+
+	return {
+		init,
+		getActivePlayer,
+		getPlayers,
+		togglePlayer,
+	};
+})();
 
 GameBoard.printBoard();

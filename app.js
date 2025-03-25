@@ -1,10 +1,14 @@
 const GameBoard = (function () {
-	let board = [" ", " ", " ", " ", " ", " ", " ", " ", " "];
+	let board = ["", "", "", "", "", "", "", "", ""];
 
 	const getBoard = () => board;
-	const getCell = (cellNumber) => board[cellNumber];
-	const updateACell = (cellNumber, value) => {
-		board[cellNumber] = value;
+	const getCell = (index) => board[index];
+	const updateACell = (index, value) => {
+		board[index] = value;
+	};
+	const isEmptyCell = (index) => {
+		if (getCell(index) === "") return true;
+		return false;
 	};
 
 	const resetBoard = () => {
@@ -34,6 +38,7 @@ const GameBoard = (function () {
 		resetBoard,
 		printBoard,
 		getCell,
+		isEmptyCell,
 	};
 })();
 
@@ -59,6 +64,15 @@ const GameController = (function () {
 		if (activePlayer === player1) activePlayer = player2;
 		else activePlayer = player1;
 	};
+
+	const playRound = (index) => {
+		const mark = getActivePlayer().getMark();
+		if (!GameBoard.isEmptyCell(index)) return false;
+		GameBoard.updateACell(index, mark);
+		GameBoard.printBoard();
+		togglePlayer();
+		return true;
+	};
 	const init = () => {};
 
 	return {
@@ -66,6 +80,7 @@ const GameController = (function () {
 		getActivePlayer,
 		getPlayers,
 		togglePlayer,
+		playRound,
 	};
 })();
 

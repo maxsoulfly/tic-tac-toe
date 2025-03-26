@@ -273,5 +273,6 @@ const InputController = (function () {
 	return { init };
 })();
 
+// Init
 DisplayController.renderBoard();
 InputController.init();

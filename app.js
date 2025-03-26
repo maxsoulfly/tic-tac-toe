@@ -144,7 +144,7 @@ const GameLoop = (function () {
 		GameController.resetGame();
 		GameBoard.printBoard();
 
-		DisplayController.welcome();
+		DisplayController.gameStart();
 	};
 
 	const step = (index) => {
@@ -194,6 +194,11 @@ const DisplayController = (function () {
 		GameBoard.printBoard();
 	};
 	const welcome = () => {
+		console.log(
+			"Hi there! Welcome to Tic-Tac-Toe Use GameLoop.start() to play."
+		);
+	};
+	const gameStart = () => {
 		console.log("Game started. Use GameLoop.step(index) to play.");
 	};
 	const info = (msg) => {
@@ -206,7 +211,10 @@ const DisplayController = (function () {
 		draw,
 		printBoard,
 		welcome,
+		gameStart,
 		nextTurn,
 		info,
 	};
 })();
+
+DisplayController.welcome();

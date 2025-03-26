@@ -179,6 +179,7 @@ const GameLoop = (function () {
 })();
 
 const DisplayController = (function () {
+	// Console messages
 	const invalid = () => {
 		console.log("Cell already taken!");
 	};
@@ -204,11 +205,27 @@ const DisplayController = (function () {
 	const gameStart = () => {
 		console.log("Game started. Use GameLoop.step(index) to play.");
 	};
+	const restart = () => {
+		console.log("Use GameLoop.start() to reset.");
+	};
 	const info = (msg) => {
 		console.log(msg);
 	};
-	const restart = () => {
-		console.log("Use GameLoop.start() to reset.");
+
+	// User Interface
+	const renderBoard = () => {
+		const gameBoardElement = document.querySelector("#gameBoard");
+		gameBoardElement.innerHTML = "";
+
+		const board = GameBoard.getBoard();
+
+		for (let index = 0; index < board.length; index++) {
+			const cell = document.createElement("div");
+			cell.classList.add("cell");
+			cell.dataset.index = index;
+			cell.textContent = GameBoard.getCell(index);
+			gameBoardElement.appendChild(cell);
+		}
 	};
 
 	return {
@@ -219,9 +236,11 @@ const DisplayController = (function () {
 		welcome,
 		gameStart,
 		nextTurn,
-		info,
 		restart,
+		info,
+
+		renderBoard,
 	};
 })();
 
-DisplayController.welcome();
+DisplayController.renderBoard();

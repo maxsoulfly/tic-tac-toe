@@ -157,15 +157,18 @@ const GameLoop = (function () {
 
 			case "win":
 				DisplayController.win(playerName);
+				DisplayController.restart();
 				break;
 
 			case "draw":
 				DisplayController.draw();
+				DisplayController.restart();
 				break;
 
 			default:
 				break;
 		}
+
 		DisplayController.printBoard();
 		DisplayController.nextTurn(playerName);
 	};
@@ -183,7 +186,7 @@ const DisplayController = (function () {
 		console.log("It's a draw!");
 	};
 	const win = (playerName) => {
-		console.log(`Player ${playerName} wins! Use GameLoop.start to reset.`);
+		console.log(`Player ${playerName} wins!`);
 	};
 	const nextTurn = (playerName) => {
 		console.log(
@@ -204,6 +207,9 @@ const DisplayController = (function () {
 	const info = (msg) => {
 		console.log(msg);
 	};
+	const restart = () => {
+		console.log("Use GameLoop.start() to reset.");
+	};
 
 	return {
 		invalid,
@@ -214,6 +220,7 @@ const DisplayController = (function () {
 		gameStart,
 		nextTurn,
 		info,
+		restart,
 	};
 })();
 

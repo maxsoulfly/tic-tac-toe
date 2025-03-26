@@ -191,24 +191,3 @@ const GameLoop = (function () {
 })();
 
 GameLoop.start();
-
-// const startGame = () => {
-// 	GameController.resetGame();
-// 	GameBoard.printBoard();
-
-// 	do {
-// 		let userInput = prompt(
-// 			`${GameController.getActivePlayer().getName()}, enter a cell index (0–8):`
-// 		);
-// 		let index = parseInt(userInput);
-// 		GameController.playRound(index);
-// 	} while (!GameController.isGameOver());
-
-// 	if (confirm("Play again?")) {
-// 		startGame(); // restart the game
-// 	} else {
-// 		alert("Thanks for playing!");
-// 	}
-// };
-
-// startGame();

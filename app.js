@@ -197,17 +197,18 @@ const DisplayController = (function () {
 	};
 
 	// User Interface
-	const formatRow = (startIndex) => {
+	const formatRow = (board, startIndex) => {
 		return `${board[startIndex]} | ${board[startIndex + 1]} | ${
 			board[startIndex + 2]
 		} `;
 	};
 	const printBoard = () => {
+		const board = GameBoard.getBoard();
 		console.log("  0   1   2");
 		let row = 0;
-		for (let i = 0; i < board.length; i += 3) {
-			console.log(`${row} ${formatRow(i)}`);
-			if (i == 0 || i == 3) console.log(` ---+---+---`);
+		for (let index = 0; index < board.length; index += 3) {
+			console.log(`${row} ${formatRow(board, index)}`);
+			if (index == 0 || index == 3) console.log(` ---+---+---`);
 			row++;
 		}
 	};

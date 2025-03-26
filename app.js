@@ -183,7 +183,7 @@ const DisplayController = (function () {
 		console.log("It's a draw!");
 	};
 	const win = (playerName) => {
-		console.log(`Player ${playerName} wins!`);
+		console.log(`Player ${playerName} wins! Use GameLoop.start to reset.`);
 	};
 	const nextTurn = (playerName) => {
 		console.log(

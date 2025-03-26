@@ -1,0 +1,53 @@
+:root {
+	--cell-size: 100px;
+	--board-size: 300px;
+	--cell-border: 1px solid var(--secondary-color);
+	--font-size: 2rem;
+
+	--primary-color: #3498db;
+	--secondary-color: #2ecc71;
+	--background-color: #ecf0f1;
+	--hover-primary-color: #2980b9;
+	--hover-secondary-color: #27ae60;
+	--active-color: #3e8e41;
+}
+
+#gameBoard {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	width: var(--board-size);
+	height: var(--board-size);
+	gap: 2px; /* optional spacing between cells */
+}
+
+.cell {
+	width: var(--cell-size);
+	height: var(--cell-size);
+	border: var(--cell-border);
+	font-size: var(--font-size);
+	text-align: center;
+	line-height: var(--cell-size);
+	cursor: pointer;
+	user-select: none;
+}
+
+button {
+	background-color: var(--primary-color); /* Green */
+	color: white;
+	padding: 10px 20px;
+	border: none;
+	border-radius: 5px;
+	font-size: 1rem;
+	cursor: pointer;
+	transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+	background-color: var(--hover-primary-color);
+	transform: scale(1.05);
+}
+
+button:active {
+	background-color: #3e8e41;
+	transform: scale(0.95);
+}

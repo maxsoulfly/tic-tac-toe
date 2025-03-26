@@ -252,8 +252,15 @@ const InputController = (function () {
 				GameLoop.step(index);
 			});
 		});
+
+		const resetButtonBtn = document.querySelector("#resetButton");
+		resetButtonBtn.addEventListener("click", () => {
+			GameLoop.start();
+			InputController.init();
+		});
 	};
 	return { init };
 })();
 
 DisplayController.renderBoard();
+InputController.init();

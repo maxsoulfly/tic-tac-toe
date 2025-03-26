@@ -243,4 +243,17 @@ const DisplayController = (function () {
 	};
 })();
 
+const InputController = (function () {
+	const init = () => {
+		const cells = document.querySelectorAll(".cell");
+		cells.forEach((cell) => {
+			const index = cell.dataset.index;
+			cell.addEventListener("click", () => {
+				GameLoop.step(index);
+			});
+		});
+	};
+	return { init };
+})();
+
 DisplayController.renderBoard();

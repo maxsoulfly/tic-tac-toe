@@ -170,6 +170,7 @@ const GameLoop = (function () {
 		}
 
 		DisplayController.printBoard();
+		DisplayController.updateBoard();
 		DisplayController.nextTurn(playerName);
 	};
 	return {
@@ -228,6 +229,14 @@ const DisplayController = (function () {
 		}
 	};
 
+	const updateBoard = () => {
+		const cells = document.querySelectorAll(".cell");
+		cells.forEach((cell) => {
+			const index = cell.dataset.index;
+			cell.textContent = GameBoard.getCell(index);
+		});
+	};
+
 	return {
 		invalid,
 		win,
@@ -240,6 +249,7 @@ const DisplayController = (function () {
 		info,
 
 		renderBoard,
+		updateBoard,
 	};
 })();
 
@@ -257,6 +267,7 @@ const InputController = (function () {
 		resetButtonBtn.addEventListener("click", () => {
 			GameLoop.start();
 			InputController.init();
+			DisplayController.renderBoard();
 		});
 	};
 	return { init };

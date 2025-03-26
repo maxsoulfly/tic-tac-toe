@@ -17,26 +17,10 @@ const GameBoard = (function () {
 		}
 	};
 
-	const formatRow = (startIndex) => {
-		return `${board[startIndex]} | ${board[startIndex + 1]} | ${
-			board[startIndex + 2]
-		} `;
-	};
-	const printBoard = () => {
-		console.log("  0   1   2");
-		let row = 0;
-		for (let i = 0; i < board.length; i += 3) {
-			console.log(`${row} ${formatRow(i)}`);
-			if (i == 0 || i == 3) console.log(` ---+---+---`);
-			row++;
-		}
-	};
-
 	return {
 		getBoard,
 		updateACell,
 		resetBoard,
-		printBoard,
 		getCell,
 		isEmptyCell,
 	};
@@ -51,6 +35,7 @@ const createPlayer = (name, mark) => {
 	};
 };
 
+// GameController
 const GameController = (function () {
 	const player1 = createPlayer("player1", "X");
 	const player2 = createPlayer("player2", "O");
@@ -73,7 +58,7 @@ const GameController = (function () {
 		if (!GameBoard.isEmptyCell(index)) return "invalid";
 
 		GameBoard.updateACell(index, mark);
-		GameBoard.printBoard();
+		DisplayController.printBoard();
 
 		if (checkWinner(mark)) return "win";
 		if (checkDraw()) return "draw";
@@ -138,12 +123,12 @@ const GameController = (function () {
 	};
 })();
 
+// GameLoop
 const GameLoop = (function () {
 	// Private: any setup or helpers
 	const start = () => {
 		GameController.resetGame();
-		GameBoard.printBoard();
-
+		DisplayController.printBoard();
 		DisplayController.gameStart();
 	};
 
@@ -179,6 +164,7 @@ const GameLoop = (function () {
 	};
 })();
 
+// DisplayController
 const DisplayController = (function () {
 	// Console messages
 	const invalid = () => {
@@ -194,9 +180,6 @@ const DisplayController = (function () {
 		console.log(
 			`${playerName} turn! Tip: Use GameLoop.step(index) to play.`
 		);
-	};
-	const printBoard = () => {
-		GameBoard.printBoard();
 	};
 	const welcome = () => {
 		console.log(
@@ -214,6 +197,21 @@ const DisplayController = (function () {
 	};
 
 	// User Interface
+	const formatRow = (startIndex) => {
+		return `${board[startIndex]} | ${board[startIndex + 1]} | ${
+			board[startIndex + 2]
+		} `;
+	};
+	const printBoard = () => {
+		console.log("  0   1   2");
+		let row = 0;
+		for (let i = 0; i < board.length; i += 3) {
+			console.log(`${row} ${formatRow(i)}`);
+			if (i == 0 || i == 3) console.log(` ---+---+---`);
+			row++;
+		}
+	};
+
 	const renderBoard = () => {
 		const gameBoardElement = document.querySelector("#gameBoard");
 		gameBoardElement.innerHTML = "";
@@ -253,6 +251,7 @@ const DisplayController = (function () {
 	};
 })();
 
+// InputController
 const InputController = (function () {
 	const init = () => {
 		const cells = document.querySelectorAll(".cell");

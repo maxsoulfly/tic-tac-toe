@@ -144,36 +144,69 @@ const GameLoop = (function () {
 		GameController.resetGame();
 		GameBoard.printBoard();
 
-		console.log("Game started. Use GameLoop.step(index) to play.");
+		DisplayController.welcome();
 	};
 
 	const step = (index) => {
 		const result = GameController.playRound(index);
+		const playerName = GameController.getActivePlayer().getName();
 		switch (result) {
 			case "invalid":
-				console.log("Cell already taken!");
-
+				DisplayController.invalid();
 				break;
 
 			case "win":
-				console.log(
-					`Player ${GameController.getActivePlayer().getName()} wins!`
-				);
-
+				DisplayController.win(playerName);
 				break;
 
 			case "draw":
-				console.log("It's a draw!");
+				DisplayController.draw();
 				break;
 
 			default:
 				break;
 		}
-
-		GameBoard.printBoard();
+		DisplayController.printBoard();
+		DisplayController.nextTurn(playerName);
 	};
 	return {
 		start,
 		step,
+	};
+})();
+
+const DisplayController = (function () {
+	const invalid = () => {
+		console.log("Cell already taken!");
+	};
+	const draw = () => {
+		console.log("It's a draw!");
+	};
+	const win = (playerName) => {
+		console.log(`Player ${playerName} wins!`);
+	};
+	const nextTurn = (playerName) => {
+		console.log(
+			`${playerName} turn! Tip: Use GameLoop.step(index) to play.`
+		);
+	};
+	const printBoard = () => {
+		GameBoard.printBoard();
+	};
+	const welcome = () => {
+		console.log("Game started. Use GameLoop.step(index) to play.");
+	};
+	const info = (msg) => {
+		console.log(msg);
+	};
+
+	return {
+		invalid,
+		win,
+		draw,
+		printBoard,
+		welcome,
+		nextTurn,
+		info,
 	};
 })();

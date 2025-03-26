@@ -63,6 +63,6 @@ button:hover {
 }
 
 button:active {
-	background-color: #3e8e41;
+	background-color: var(--active-color);
 	transform: scale(0.95);
 }

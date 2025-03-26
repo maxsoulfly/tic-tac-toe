@@ -138,23 +138,77 @@ const GameController = (function () {
 	};
 })();
 
-const startGame = () => {
-	GameController.resetGame();
-	GameBoard.printBoard();
+const GameLoop = (function () {
+	// Private: any setup or helpers
+	const start = () => {
+		GameController.resetGame();
+		GameBoard.printBoard();
 
-	do {
-		let userInput = prompt(
-			`${GameController.getActivePlayer().getName()}, enter a cell index (0–8):`
-		);
-		let index = parseInt(userInput);
-		GameController.playRound(index);
-	} while (!GameController.isGameOver());
+		do {
+			let userInput = prompt(
+				`${GameController.getActivePlayer().getName()}, enter a cell index (0–8):`
+			);
+			let index = parseInt(userInput);
+			GameController.playRound(index);
+		} while (!GameController.isGameOver());
 
-	if (confirm("Play again?")) {
-		startGame(); // restart the game
-	} else {
-		alert("Thanks for playing!");
-	}
-};
+		if (confirm("Play again?")) {
+			start(); // restart the game
+		} else {
+			alert("Thanks for playing!");
+		}
+	};
 
-startGame();
+	const step = (index) => {
+		const result = GameController.playRound(index);
+		switch (result) {
+			case "invalid":
+				console.log("Cell already taken!");
+
+				break;
+
+			case "win":
+				console.log(
+					`Player ${GameController.getActivePlayer().getName()} wins!`
+				);
+
+				break;
+
+			case "draw":
+				console.log("It's a draw!");
+				break;
+
+			default:
+				break;
+		}
+
+		GameBoard.printBoard();
+	};
+	return {
+		start,
+		step,
+	};
+})();
+
+GameLoop.start();
+
+// const startGame = () => {
+// 	GameController.resetGame();
+// 	GameBoard.printBoard();
+
+// 	do {
+// 		let userInput = prompt(
+// 			`${GameController.getActivePlayer().getName()}, enter a cell index (0–8):`
+// 		);
+// 		let index = parseInt(userInput);
+// 		GameController.playRound(index);
+// 	} while (!GameController.isGameOver());
+
+// 	if (confirm("Play again?")) {
+// 		startGame(); // restart the game
+// 	} else {
+// 		alert("Thanks for playing!");
+// 	}
+// };
+
+// startGame();

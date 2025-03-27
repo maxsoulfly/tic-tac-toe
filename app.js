@@ -64,7 +64,6 @@ const GameController = (function () {
 		if (!GameBoard.isEmptyCell(index)) return "invalid";
 
 		GameBoard.updateACell(index, mark);
-		DisplayController.printBoard();
 
 		if (checkWinner(mark)) return "win";
 		if (checkDraw()) return "draw";

@@ -142,12 +142,10 @@ const GameLoop = (function () {
 
 			case "win":
 				DisplayController.win(playerName);
-				DisplayController.restart();
 				break;
 
 			case "draw":
 				DisplayController.draw();
-				DisplayController.restart();
 				break;
 
 			default:
@@ -173,12 +171,12 @@ const DisplayController = (function () {
 		DisplayController.setStatus(message);
 	};
 	const draw = () => {
-		const message = "It's a draw!";
+		const message = "<b>It's a draw!</b> Click 'New Game' to play again.";
 		console.log(message);
 		DisplayController.setStatus(message);
 	};
 	const win = (playerName) => {
-		const message = `Player ${playerName} wins!`;
+		const message = `<b>Player ${playerName} wins!</b> Click 'New Game' to play again.`;
 		console.log(message);
 		DisplayController.setStatus(message);
 	};
@@ -206,7 +204,7 @@ const DisplayController = (function () {
 	};
 
 	const setStatus = (message) => {
-		document.querySelector("#status").textContent  = message;
+		document.querySelector("#status").innerHTML  = message;
 	}
 
 	// User Interface

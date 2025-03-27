@@ -151,12 +151,12 @@ const GameLoop = (function () {
 				break;
 
 			default:
+				DisplayController.nextTurn(playerName);
 				break;
 		}
 
 		DisplayController.printBoard();
 		DisplayController.updateBoard();
-		DisplayController.nextTurn(playerName);
 	};
 	return {
 		start,
@@ -260,6 +260,7 @@ const DisplayController = (function () {
 		restart,
 		info,
 		setStatus,
+
 		renderBoard,
 		updateBoard,
 	};
@@ -279,8 +280,8 @@ const InputController = (function () {
 		const resetButtonBtn = document.querySelector("#resetButton");
 		resetButtonBtn.addEventListener("click", () => {
 			GameLoop.start();
-			InputController.init();
 			DisplayController.renderBoard();
+			InputController.init();
 		});
 	};
 	return { init };

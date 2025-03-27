@@ -37,12 +37,18 @@ const createPlayer = (name, mark) => {
 
 // GameController
 const GameController = (function () {
-	const player1 = createPlayer("player1", "X");
-	const player2 = createPlayer("player2", "O");
+
+	let player1;
+	let player2;
 
 	let activePlayer = player1;
 	let gameOver = false;
 
+	const setPlayerNames = (name1, name2) => {
+		player1 = createPlayer(name1 || "Player 1", "X");
+		player2 = createPlayer(name2 || "Player 2", "O");
+		activePlayer = player1;
+	};
 	const getActivePlayer = () => activePlayer;
 	const getPlayers = () => [player1, player2];
 
@@ -114,6 +120,7 @@ const GameController = (function () {
 	const isGameOver = () => gameOver;
 
 	return {
+		setPlayerNames,
 		getActivePlayer,
 		getPlayers,
 		togglePlayer,
@@ -127,9 +134,13 @@ const GameController = (function () {
 const GameLoop = (function () {
 	// Private: any setup or helpers
 	const start = () => {
+		const name1 = document.querySelector("#player1").value;
+		const name2 = document.querySelector("#player2").value;
+		GameController.setPlayerNames(name1, name2);
+
 		GameController.resetGame();
 		DisplayController.printBoard();
-		DisplayController.gameStart();
+		DisplayController.gameStart(GameController.getActivePlayer().getName());
 	};
 
 	const step = (index) => {
@@ -176,7 +187,7 @@ const DisplayController = (function () {
 		DisplayController.setStatus(message);
 	};
 	const win = (playerName) => {
-		const message = `<b>Player ${playerName} wins!</b> Click 'New Game' to play again.`;
+		const message = `<b>${playerName} wins!</b> Click 'New Game' to play again.`;
 		console.log(message);
 		DisplayController.setStatus(message);
 	};
@@ -190,9 +201,10 @@ const DisplayController = (function () {
 		console.log(message + " Use GameLoop.start() to play.");
 		DisplayController.setStatus(message);
 	};
-	const gameStart = () => {
-		console.log("Game started. Use GameLoop.step(index) to play.");
-		DisplayController.setStatus("New game started!");
+	const gameStart = (playerName) => {
+		const message = `New game started! ${playerName}'s turn.`;
+		console.log(message + "\nTip: Use GameLoop.step(index) to play.");
+		DisplayController.setStatus(message);
 	};
 	const restart = () => {
 		console.log("Use GameLoop.start() to reset.");

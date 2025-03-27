@@ -166,35 +166,48 @@ const GameLoop = (function () {
 
 // DisplayController
 const DisplayController = (function () {
-	// Console messages
+	// Console + status messages
 	const invalid = () => {
-		console.log("Cell already taken!");
+		const message = "Cell already taken!";
+		console.log(message);
+		DisplayController.setStatus(message);
 	};
 	const draw = () => {
-		console.log("It's a draw!");
+		const message = "It's a draw!";
+		console.log(message);
+		DisplayController.setStatus(message);
 	};
 	const win = (playerName) => {
-		console.log(`Player ${playerName} wins!`);
+		const message = `Player ${playerName} wins!`;
+		console.log(message);
+		DisplayController.setStatus(message);
 	};
 	const nextTurn = (playerName) => {
-		console.log(
-			`${playerName} turn! Tip: Use GameLoop.step(index) to play.`
-		);
+		const message = `${playerName} turn!`;
+		console.log(message + " Tip: Use GameLoop.step(index) to play.");
+		DisplayController.setStatus(message);
 	};
 	const welcome = () => {
-		console.log(
-			"Hi there! Welcome to Tic-Tac-Toe Use GameLoop.start() to play."
-		);
+		const message = "Hi there! Welcome to Tic-Tac-Toe!";
+		console.log(message + " Use GameLoop.start() to play.");
+		DisplayController.setStatus(message);
 	};
 	const gameStart = () => {
 		console.log("Game started. Use GameLoop.step(index) to play.");
+		DisplayController.setStatus("New game started!");
 	};
 	const restart = () => {
 		console.log("Use GameLoop.start() to reset.");
+		DisplayController.setStatus("Click 'New Game' to reset.");
 	};
-	const info = (msg) => {
-		console.log(msg);
+	const info = (message) => {
+		console.log(message);
+		DisplayController.setStatus(message);
 	};
+
+	const setStatus = (message) => {
+		document.querySelector("#status").textContent  = message;
+	}
 
 	// User Interface
 	const formatRow = (board, startIndex) => {
@@ -246,7 +259,7 @@ const DisplayController = (function () {
 		nextTurn,
 		restart,
 		info,
-
+		setStatus,
 		renderBoard,
 		updateBoard,
 	};

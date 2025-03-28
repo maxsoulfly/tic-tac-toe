@@ -45,11 +45,12 @@ const GameController = (function () {
 	let activePlayer = player1;
 	let gameOver = false;
 
-	const setPlayerNames = (name1, name2) => {
-		player1 = createPlayer(name1 || "Player 1", "X");
-		player2 = createPlayer(name2 || "Player 2", "O");
+	const setupPlayers = (name1, isAI1, name2, isAI2) => {
+		player1 = createPlayer(name1 || "Player 1", "X", isAI1);
+		player2 = createPlayer(name2 || "Player 2", "O", isAI2);
 		activePlayer = player1;
 	};
+
 	const getActivePlayer = () => activePlayer;
 	const getPlayers = () => [player1, player2];
 
@@ -120,7 +121,7 @@ const GameController = (function () {
 	const isGameOver = () => gameOver;
 
 	return {
-		setPlayerNames,
+		setupPlayers,
 		getActivePlayer,
 		getPlayers,
 		togglePlayer,
@@ -136,7 +137,9 @@ const GameLoop = (function () {
 	const start = () => {
 		const name1 = document.querySelector("#player1").value;
 		const name2 = document.querySelector("#player2").value;
-		GameController.setPlayerNames(name1, name2);
+		const isAI1 = document.querySelector("#player1AI").checked;
+		const isAI2 = document.querySelector("#player2AI").checked;
+		GameController.setupPlayers(name1, isAI1, name2, isAI2);
 
 		GameController.resetGame();
 		DisplayController.printBoard();

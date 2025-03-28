@@ -62,10 +62,6 @@ const GameController = (function () {
 	const playRound = (index) => {
 		if (gameOver) return false;
 
-		if (getActivePlayer().isAI()) {
-			AIController.makeMove(currentPlayer, board);
-		}
-
 		const mark = getActivePlayer().getMark();
 		if (!GameBoard.isEmptyCell(index)) return "invalid";
 

@@ -380,39 +380,21 @@ const InputController = (function () {
     };
     return { init };
 })();
-
 // AIController
 const AIController = (function () {
-    const makeMove = (currentPlayer, board, strategy) => {
-        if (!GameController.isGameOver() && currentPlayer.isAI()) {
-            const aiMark = currentPlayer.getMark();
-            const humanMark =
-                GameController.getOpponent(currentPlayer).getMark();
-
-            const available = getAvailableIndices(board);
-
-            const index =
-                available.length === 9
-                    ? randomMove(board) // Board is empty, make random first move
-                    : minimaxMove(board, aiMark, humanMark);
-
-            GameLoop.step(index);
-            console.log('AI Player Move');
-        }
+    // Utility Functions
+    const pickRandom = (array) => {
+        return array[Math.floor(Math.random() * array.length)];
     };
-    const randomMove = (board) => {
-        // Create an array of all possible cell indices on the board
-        const allIndices = Array.from({ length: board.length }, (_, i) => i);
 
-        // Filter the list to keep only the indices of empty cells
-        const availableIndices = allIndices.filter((index) =>
-            GameBoard.isEmptyCell(index)
+    const getAvailableIndices = (board) => {
+        return Array.from({ length: board.length }, (_, i) => i).filter(
+            (index) => isEmptyCellSim(board, index)
         );
+    };
 
-        // Pick a random index from the list of available moves
-        const randomIndex = Math.floor(Math.random() * availableIndices.length);
-
-        return availableIndices[randomIndex];
+    const isEmptyCellSim = (board, index) => {
+        return board[index] === GameBoard.getEmptyCellMark();
     };
 
     const getWinner = (board) => {
@@ -438,22 +420,39 @@ const AIController = (function () {
         }
         return null; // no winner yet
     };
+
     const isDraw = (board) => {
         return board.every((cell) => cell !== '') && getWinner(board) === null;
     };
-    const isEmptyCellSim = (board, index) => {
-        return board[index] === GameBoard.getEmptyCellMark();
+
+    // Move Strategies
+    const randomMove = (board) => {
+        const availableIndices = getAvailableIndices(board);
+        const randomIndex = Math.floor(Math.random() * availableIndices.length);
+        return availableIndices[randomIndex];
     };
 
-    const getAvailableIndices = (board) => {
-        return Array.from({ length: board.length }, (_, i) => i).filter(
-            (index) => isEmptyCellSim(board, index)
-        );
+    const greedyMove = (board, aiMark) => {
+        const availableIndices = getAvailableIndices(board);
+
+        for (const index of availableIndices) {
+            board[index] = aiMark;
+
+            if (getWinner(board) === aiMark) {
+                board[index] = GameBoard.getEmptyCellMark(); // undo
+                return index;
+            }
+
+            board[index] = GameBoard.getEmptyCellMark(); // undo
+        }
+
+        // No winning move, make a random move instead
+        return pickRandom(availableIndices);
     };
 
     const minimaxMove = (board, aiMark, humanMark) => {
         let bestScore = -Infinity;
-        let bestMove = null; // Get all available moves
+        let bestMove = null;
 
         const availableIndices = getAvailableIndices(board);
         availableIndices.forEach((index) => {
@@ -475,20 +474,15 @@ const AIController = (function () {
     };
 
     const minimax = (board, depth, isMaximizing, aiMark, humanMark) => {
-        // Base case: Check if the game is over and return a score
         const winner = getWinner(board);
-        if (winner === 'O') return +1; // AI wins
-        if (winner === 'X') return -1; // Human wins
+        if (winner === aiMark) return +1; // AI wins
+        if (winner === humanMark) return -1; // Human wins
         if (isDraw(board)) return 0; // Draw
 
-        // Determine the current player's mark and initialize bestScore
         const mark = isMaximizing ? aiMark : humanMark;
         let bestScore = isMaximizing ? -Infinity : +Infinity;
 
-        // Get all available moves
         const availableIndices = getAvailableIndices(board);
-
-        // Simulate each move and recursively calculate scores
         availableIndices.forEach((index) => {
             board[index] = mark; // Make a move
             const score = minimax(
@@ -499,7 +493,6 @@ const AIController = (function () {
                 humanMark
             );
             board[index] = GameBoard.getEmptyCellMark(); // Undo the move
-            // Update bestScore based on maximizing or minimizing
             bestScore = isMaximizing
                 ? Math.max(bestScore, score)
                 : Math.min(bestScore, score);
@@ -507,10 +500,41 @@ const AIController = (function () {
         return bestScore;
     };
 
-    const hybridMove = () => {};
+    // Main AI Logic
+    const makeMove = (currentPlayer, board) => {
+        if (!GameController.isGameOver() && currentPlayer.isAI()) {
+            const aiMark = currentPlayer.getMark();
+            const humanMark =
+                GameController.getOpponent(currentPlayer).getMark();
+
+            const available = getAvailableIndices(board);
+            let index;
+
+            if (available.length === 9) {
+                index = randomMove(board);
+            } else {
+                const strategies = ['minimax', 'greedy', 'random'];
+                const strategy = pickRandom(strategies);
+
+                index =
+                    strategy === 'minimax'
+                        ? minimaxMove(board, aiMark, humanMark)
+                        : strategy === 'greedy'
+                        ? greedyMove(board, aiMark)
+                        : randomMove(board);
+
+                console.log(`AI Strategy: ${strategy}`);
+            }
+            GameLoop.step(index);
+            console.log('AI Player Move');
+        }
+    };
 
     return {
         makeMove,
+        randomMove,
+        greedyMove,
+        minimaxMove,
     };
 })();
 

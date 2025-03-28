@@ -165,6 +165,7 @@ const GameLoop = (function () {
 		const result = GameController.playRound(index);
 
 		maybeTriggerAI();
+
 		const playerName = GameController.getActivePlayer().getName();
 		switch (result) {
 			case "invalid":

@@ -317,7 +317,6 @@ const AIController = (function () {
 		// Pick a random index from the list of available moves
 		const randomIndex = Math.floor(Math.random() * availableIndices.length);
 
-		// Return the selected cell index
 		return availableIndices[randomIndex];
 	};
 	const minimaxMove = () => {};

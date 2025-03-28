@@ -1,8 +1,10 @@
 const GameBoard = (function () {
-    let board = Array(9).fill('');
+    const emptyCellMark = '';
+    let board = Array(9).fill(emptyCellMark);
 
     const getBoard = () => board;
     const getCell = (index) => board[index];
+    const getEmptyCellMark = () => emptyCellMark;
     const updateACell = (index, value) => {
         board[index] = value;
     };
@@ -23,6 +25,7 @@ const GameBoard = (function () {
         resetBoard,
         getCell,
         isEmptyCell,
+        getEmptyCellMark,
     };
 })();
 
@@ -385,7 +388,74 @@ const AIController = (function () {
 
         return availableIndices[randomIndex];
     };
-    const minimaxMove = (board) => {};
+
+    const getWinner = (board) => {
+        const winningCombos = [
+            [0, 1, 2],
+            [3, 4, 5],
+            [6, 7, 8],
+            [0, 3, 6],
+            [1, 4, 7],
+            [2, 5, 8],
+            [0, 4, 8],
+            [2, 4, 6],
+        ];
+
+        for (const [a, b, c] of winningCombos) {
+            if (
+                board[a] !== '' &&
+                board[a] === board[b] &&
+                board[a] === board[c]
+            ) {
+                return board[a]; // returns "X" or "O"
+            }
+        }
+        return null; // no winner yet
+    };
+    const isDraw = (board) => {
+        return board.every((cell) => cell !== '') && getWinner(board) === null;
+    };
+    const isEmptyCellSim = (board, index) => {
+        return board[index] === GameBoard.getEmptyCellMark();
+    };
+    const minimaxMove = (board, aiMark, humanMark) => {};
+
+    const minimax = (board, depth, isMaximizing, aiMark, humanMark) => {
+        // Base case: Check if the game is over and return a score
+        const winner = getWinner(board);
+        if (winner === 'O') return +1; // AI wins
+        if (winner === 'X') return -1; // Human wins
+        if (isDraw(board)) return 0; // Draw
+
+        // Determine the current player's mark and initialize bestScore
+        const mark = isMaximizing ? aiMark : humanMark;
+        let bestScore = isMaximizing ? -Infinity : +Infinity;
+
+        // Get all available moves
+        const allIndices = Array.from({ length: board.length }, (_, i) => i);
+        const availableIndices = allIndices.filter((index) =>
+            isEmptyCellSim(board, index)
+        );
+
+        // Simulate each move and recursively calculate scores
+        availableIndices.forEach((index) => {
+            board[index] = mark; // Make a move
+            const score = minimax(
+                board,
+                depth + 1,
+                !isMaximizing,
+                aiMark,
+                humanMark
+            );
+            board[index] = GameBoard.getEmptyCellMark(); // Undo the move
+            // Update bestScore based on maximizing or minimizing
+            bestScore = isMaximizing
+                ? Math.max(bestScore, score)
+                : Math.min(bestScore, score);
+        });
+        return bestScore;
+    };
+
     const hybridMove = () => {};
 
     return {

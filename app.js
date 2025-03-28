@@ -148,6 +148,8 @@ const GameLoop = (function () {
 			!GameController.isGameOver() &&
 			GameController.getActivePlayer().isAI()
 		) {
+			DisplayController.setStatus("AI is thinking...");
+
 			setTimeout(() => {
 				AIController.makeMove(
 					GameController.getActivePlayer(),
@@ -171,7 +173,8 @@ const GameLoop = (function () {
 		const playerName = GameController.getActivePlayer().getName();
 		const result = GameController.playRound(index);
 
-		maybeTriggerAI();
+		DisplayController.printBoard();
+		DisplayController.updateBoard();
 		switch (result) {
 			case "invalid":
 				DisplayController.invalid();
@@ -185,16 +188,13 @@ const GameLoop = (function () {
 				DisplayController.draw();
 				break;
 
-			default:
+			case "next":
 				const nextPlayerName =
 					GameController.getActivePlayer().getName();
 				DisplayController.nextTurn(nextPlayerName);
 				maybeTriggerAI();
 				break;
 		}
-
-		DisplayController.printBoard();
-		DisplayController.updateBoard();
 	};
 	return {
 		start,

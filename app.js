@@ -37,7 +37,6 @@ const createPlayer = (name, mark) => {
 
 // GameController
 const GameController = (function () {
-
 	let player1;
 	let player2;
 
@@ -215,14 +214,14 @@ const DisplayController = (function () {
 	};
 
 	const setStatus = (message) => {
-		document.querySelector("#status").innerHTML  = message;
-	}
+		document.querySelector("#status").innerHTML = message;
+	};
 
 	// User Interface
 	const formatRow = (board, startIndex) => {
-		return `${board[startIndex]} | ${board[startIndex + 1]} | ${
-			board[startIndex + 2]
-		} `;
+		return `${board[startIndex] || " "} | ${
+			board[startIndex + 1] || " "
+		} | ${board[startIndex + 2] || " "} `;
 	};
 	const printBoard = () => {
 		const board = GameBoard.getBoard();

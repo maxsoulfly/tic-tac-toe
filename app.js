@@ -385,11 +385,13 @@ const InputController = (function () {
 const AIController = (function () {
     const makeMove = (currentPlayer, board, strategy) => {
         if (!GameController.isGameOver() && currentPlayer.isAI()) {
-            // const index = randomMove(board);
             const aiMark = currentPlayer.getMark();
             const humanMark =
                 GameController.getOpponent(currentPlayer).getMark();
-            const index = minimaxMove(board, aiMark, humanMark);
+            const index =
+                strategy === 'random'
+                    ? randomMove(board)
+                    : minimaxMove(board, aiMark, humanMark);
 
             GameLoop.step(index);
             console.log('AI Player Move');

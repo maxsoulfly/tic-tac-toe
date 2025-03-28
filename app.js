@@ -84,6 +84,8 @@ const GameController = (function () {
 		return false;
 	};
 	const checkWinner = (mark) => {
+		console.log("Checking for winner with mark:", mark);
+		console.log("Current board:", GameBoard.getBoard());
 		const winningCombinations = [
 			[0, 1, 2], // Top row
 			[3, 4, 5], // Middle row
@@ -164,10 +166,10 @@ const GameLoop = (function () {
 	};
 
 	const step = (index) => {
+		const playerName = GameController.getActivePlayer().getName();
 		const result = GameController.playRound(index);
 
 		maybeTriggerAI();
-		const playerName = GameController.getActivePlayer().getName();
 		switch (result) {
 			case "invalid":
 				DisplayController.invalid();
@@ -182,7 +184,10 @@ const GameLoop = (function () {
 				break;
 
 			default:
-				DisplayController.nextTurn(playerName);
+				const nextPlayerName =
+					GameController.getActivePlayer().getName();
+				DisplayController.nextTurn(nextPlayerName);
+				maybeTriggerAI();
 				break;
 		}
 
@@ -322,7 +327,7 @@ const InputController = (function () {
 // AIController
 const AIController = (function () {
 	const makeMove = (currentPlayer, board, strategy) => {
-		if (currentPlayer.isAI()) {
+		if (!GameController.isGameOver() && currentPlayer.isAI()) {
 			const index = randomMove(board);
 			GameLoop.step(index);
 			console.log("AI Player Move");

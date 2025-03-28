@@ -35,6 +35,9 @@ body {
 	height: var(--board-size);
 	gap: 2px; /* optional spacing between cells */
 }
+#gameBoard.disabled {
+	pointer-events: none;
+}
 
 .cell {
 	width: var(--cell-size);
@@ -56,7 +59,7 @@ body {
 .cell.filled{
 	background-color: var(--cell-filled-color);
 	/* color: white; */
-	font-weight: bold;
+	/* font-weight: bold; */
 }
 .cell.filled:hover {
 	background-color: transparent;
@@ -84,7 +87,14 @@ button:active {
 	background-color: var(--active-color);
 	transform: scale(0.95);
 }
-.win {
+.cell.win {
 	background-color: var(--secondary-color);
 	transition: background-color 0.3s ease;
+	font-weight: bold;
+	font-size: 2.2em;
+}
+.cell.win:hover {
+	background-color: var(--secondary-color);
+	transform: none;
+	cursor: default;
 }

@@ -2,7 +2,11 @@
 
 ## Overview
 
-A fully modular, web-based implementation of the classic Tic-Tac-Toe game. Built with HTML, CSS, and vanilla JavaScript, it supports Human vs Human, Human vs AI, and AI vs AI modes, featuring dynamic strategies, board effects, and an evolving AI.
+A fully modular, web-based implementation of the classic Tic-Tac-Toe game. Built with HTML, CSS, and vanilla JavaScript, it supports Human vs Human, Human vs AI, and AI vs AI modes — featuring dynamic strategies, modular architecture, and an evolving AI.
+
+But this isn't just Tic-Tac-Toe.
+
+It's a **fully operational neon deathmatch machine**, straight outta a 1980s futurepunk arcade. Grab a name, flick the AI switch, and step into the glow.
 
 ## 🎮 Live Demo
 
@@ -10,15 +14,19 @@ Try it here: [Play Tic-Tac-Toe](https://maxsoulfly.github.io/tic-tac-toe/)
 
 ## ✨ Features
 
--   Human vs Human gameplay
--   Human vs AI and AI vs AI modes
+-   Human vs Human mode
+-   Human vs AI or AI vs AI battles
 -   Three AI strategies: **Random**, **Greedy**, **Minimax**
--   **Humanlike AI Mode**: switches strategies randomly for unpredictability
--   Randomized first moves for variety
--   Highlighted winning combinations
--   Dynamic console and status updates
--   Hover animations and responsive UI
--   Modular architecture (GameController, AIController, DisplayController, etc.)
+-   **Humanlike AI Mode**: randomly switches strategies for realistic gameplay
+-   Randomized first move for opening variety
+-   Modular code structure with clean separation of logic
+-   Highlighted winning combinations with glowing effects
+-   Dynamic console + status messages
+-   Responsive UI with smooth hover animations
+-   **Retro Arcade Mode** – custom `retro.css` skin with:
+    -   Neon grid-style board
+    -   Glowing inputs, buttons, and checkboxes
+    -   Pixel fonts and 80s arcade aesthetic
 
 ## 🧠 AI Strategies
 

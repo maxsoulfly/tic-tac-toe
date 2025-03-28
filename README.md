@@ -2,71 +2,72 @@
 
 ## Overview
 
-This is a fully modular, web-based implementation of the classic Tic-Tac-Toe game, built from scratch using HTML, CSS, and vanilla JavaScript. It supports human vs. human, human vs. AI, and even AI vs. AI matches — complete with automated turns, board highlighting, and a clean UI.
+A fully modular, web-based implementation of the classic Tic-Tac-Toe game. Built with HTML, CSS, and vanilla JavaScript, it supports Human vs Human, Human vs AI, and AI vs AI modes, featuring dynamic strategies, board effects, and an evolving AI.
 
 ## 🎮 Live Demo
 
-Play it now: [https://maxsoulfly.github.io/tic-tac-toe/](https://maxsoulfly.github.io/tic-tac-toe/)
+Try it here: [Play Tic-Tac-Toe](https://maxsoulfly.github.io/tic-tac-toe/)
 
 ## ✨ Features
 
--   Two-player mode (human vs human)
--   AI opponent (random move logic)
--   AI vs AI auto-play mode
--   Turn-by-turn status display
--   Winning move highlighting
--   Responsive design
--   Clean, modular code structure (GameController, DisplayController, AIController, etc.)
+-   Human vs Human gameplay
+-   Human vs AI and AI vs AI modes
+-   Three AI strategies: **Random**, **Greedy**, **Minimax**
+-   **Humanlike AI Mode**: switches strategies randomly for unpredictability
+-   Randomized first moves for variety
+-   Highlighted winning combinations
+-   Dynamic console and status updates
+-   Hover animations and responsive UI
+-   Modular architecture (GameController, AIController, DisplayController, etc.)
 
-## 🧠 Future Plans
+## 🧠 AI Strategies
 
--   Add difficulty selection (easy, medium, hard)
--   Implement smarter AI using Minimax algorithm
--   Hybrid strategy combining randomness + minimax
--   Add move history and undo
--   Optional animations or sound effects
--   Score tracking across rounds
+| Strategy    | Description                                                |
+| ----------- | ---------------------------------------------------------- |
+| `random`    | Selects moves randomly                                     |
+| `greedy`    | Prioritizes immediate wins; otherwise, picks randomly      |
+| `minimax`   | Uses recursive search for optimal moves (unbeatable)       |
+| `humanlike` | Alternates between strategies to mimic human-like behavior |
 
-## 🛠️ Technologies Used
+## 🛠️ Technologies
 
--   HTML5
--   CSS3 (custom properties, responsive layout)
--   JavaScript (modular pattern, DOM manipulation)
-
-## 🚀 Setup Instructions
-
-1. Clone the repository:
-
-    ```sh
-    git clone https://github.com/maxsoulfly/tic-tac-toe.git
-    ```
-
-2. Navigate to the project directory:
-
-    ```sh
-    cd tic-tac-toe
-    ```
-
-3. Open `index.html` in your browser, or run it via a local server for best results.
+-   **HTML5**: Semantic structure
+-   **CSS3**: Responsive design, transitions, and custom properties
+-   **JavaScript**: Modular IIFE structure, DOM manipulation, recursion
 
 ## 🕹️ How to Play
 
-Click "New Game" to start.
+1. Click "New Game" to start.
+2. Enter player names and enable "AI" for AI-controlled players.
+3. Watch AI vs AI mode for automated gameplay.
 
-Enter player names and optionally check the "AI" box for one or both players.
+## 📈 Future Enhancements
 
-Players take turns clicking on the board.
+-   Difficulty levels: Easy, Normal, Unbeatable
+-   Smarter AI with dynamic defense and offense
+-   Retro arcade theme with visuals and sound effects
+-   Move history with undo/redo functionality
+-   Score tracking across sessions
 
-First to 3 marks in a row wins. If the board fills with no winner, it's a draw.
+## 🚀 Setup
+
+Clone the repository and open the project in your browser:
+
+```bash
+git clone https://github.com/maxsoulfly/tic-tac-toe.git
+cd tic-tac-toe
+```
+
+Open `index.html` in your browser to play.
 
 ## 📄 License
 
-This project is licensed under the MIT License.
+This project is licensed under the [MIT License](LICENSE).
 
 ## 🤝 Contributing
 
-Feel free to fork the project and submit pull requests! Whether it’s UI tweaks, smarter AI, or bug fixes — contributions are welcome.
+Contributions are welcome! Submit pull requests, report bugs, or share ideas for improvements.
 
 ## 📬 Contact
 
-Questions or ideas? Reach out via GitHub Issues.
+For issues or suggestions, open a GitHub issue or leave a message.

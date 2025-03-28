@@ -151,7 +151,10 @@ const GameLoop = (function () {
 
 	const step = (index) => {
 		const result = GameController.playRound(index);
-		if (!gameOver && GameController.getActivePlayer().isAI()) {
+		if (
+			!GameController.isGameOver() &&
+			GameController.getActivePlayer().isAI()
+		) {
 			setTimeout(() => {
 				AIController.makeMove(
 					GameController.getActivePlayer(),

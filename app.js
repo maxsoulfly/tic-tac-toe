@@ -140,7 +140,10 @@ const GameLoop = (function () {
 		return { name, isAI };
 	};
 	const maybeTriggerAI = () => {
-		if (GameController.getActivePlayer().isAI()) {
+		if (
+			!GameController.isGameOver() &&
+			GameController.getActivePlayer().isAI()
+		) {
 			setTimeout(() => {
 				AIController.makeMove(
 					GameController.getActivePlayer(),
@@ -157,7 +160,6 @@ const GameLoop = (function () {
 		GameController.resetGame();
 		DisplayController.printBoard();
 		DisplayController.gameStart(GameController.getActivePlayer().getName());
-
 		maybeTriggerAI();
 	};
 
@@ -165,7 +167,6 @@ const GameLoop = (function () {
 		const result = GameController.playRound(index);
 
 		maybeTriggerAI();
-
 		const playerName = GameController.getActivePlayer().getName();
 		switch (result) {
 			case "invalid":

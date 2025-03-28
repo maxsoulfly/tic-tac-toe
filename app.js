@@ -1,5 +1,5 @@
 const GameBoard = (function () {
-	let board = ["", "", "", "", "", "", "", "", ""];
+	let board = Array(9).fill("");
 
 	const getBoard = () => board;
 	const getCell = (index) => board[index];
@@ -26,12 +26,14 @@ const GameBoard = (function () {
 	};
 })();
 
-const createPlayer = (name, mark) => {
+const createPlayer = (name, mark, aiPlayer = false) => {
 	const getName = () => name;
 	const getMark = () => mark;
+	const isAI = () => aiPlayer;
 	return {
 		getName,
 		getMark,
+		isAI,
 	};
 };
 
@@ -293,6 +295,37 @@ const InputController = (function () {
 		});
 	};
 	return { init };
+})();
+
+// AIController
+const AIController = (function () {
+	const makeMove = (currentPlayer, board, strategy) => {
+		if (currentPlayer.isAI()) {
+			const index = randomMove(board);
+			GameLoop.step(index);
+		}
+	};
+	const randomMove = (board) => {
+		// Create an array of all possible cell indices on the board
+		const allIndices = Array.from({ length: board.length }, (_, i) => i);
+
+		// Filter the list to keep only the indices of empty cells
+		const availableIndices = allIndices.filter((index) =>
+			GameBoard.isEmptyCell(index)
+		);
+
+		// Pick a random index from the list of available moves
+		const randomIndex = Math.floor(Math.random() * availableIndices.length);
+
+		// Return the selected cell index
+		return availableIndices[randomIndex];
+	};
+	const minimaxMove = () => {};
+	const hybridMove = () => {};
+
+	return {
+		makeMove,
+	};
 })();
 
 // Init

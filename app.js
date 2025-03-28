@@ -220,36 +220,49 @@ const GameLoop = (function () {
 const DisplayController = (function () {
     // Console + status messages
     const invalid = () => {
-        const message = 'Cell already taken!';
-        console.log(message);
-        setStatus(message);
+        const consoleMessage = 'Cell already taken!';
+        const statusMessage = '<p>Cell already taken!</p>';
+        console.log(consoleMessage);
+        setStatus(statusMessage);
     };
+
     const draw = () => {
-        const message = "<b>It's a draw!</b> Click 'New Game' to play again.";
-        console.log(message);
-        setStatus(message);
+        const consoleMessage = "It's a draw! Click 'New Game' to play again.";
+        const statusMessage =
+            "<h3>It's a draw!</h3><p>Click 'New Game' to play again.<p>";
+        console.log(consoleMessage);
+        setStatus(statusMessage);
         disableBoard();
     };
+
     const win = (playerName) => {
-        const message = `<b>${playerName} wins!</b> Click 'New Game' to play again.`;
-        console.log(message);
-        setStatus(message);
+        const consoleMessage = `${playerName} wins! Click 'New Game' to play again.`;
+        const statusMessage = `<h3>${playerName} wins!</h3><p>Click 'New Game' to play again.</p>`;
+        console.log(consoleMessage);
+        setStatus(statusMessage);
         disableBoard();
     };
+
     const nextTurn = (playerName) => {
-        const message = `${playerName} turn!`;
-        console.log(message + ' Tip: Use GameLoop.step(index) to play.');
-        setStatus(message);
+        const consoleMessage = `${playerName}'s turn! Tip: Use GameLoop.step(index) to play.`;
+        const statusMessage = `<p>${playerName}'s turn!</p>`;
+        console.log(consoleMessage);
+        setStatus(statusMessage);
     };
+
     const welcome = () => {
-        const message = 'Hi there! Welcome to Tic-Tac-Toe!';
-        console.log(message + ' Use GameLoop.start() to play.');
-        setStatus(message);
+        const consoleMessage =
+            'Hi there! Welcome to Tic-Tac-Toe! Use GameLoop.start() to play.';
+        const statusMessage = '<h3>Hi there! Welcome to Tic-Tac-Toe!</h3>';
+        console.log(consoleMessage);
+        setStatus(statusMessage);
     };
+
     const gameStart = (playerName) => {
-        const message = `New game started! ${playerName}'s turn.`;
-        console.log(message + '\nTip: Use GameLoop.step(index) to play.');
-        setStatus(message);
+        const consoleMessage = `New game started! ${playerName}'s turn. Tip: Use GameLoop.step(index) to play.`;
+        const statusMessage = `<h4>New game started!</h4><h3>${playerName}'s turn.</h3>`;
+        console.log(consoleMessage);
+        setStatus(statusMessage);
     };
     const restart = () => {
         console.log('Use GameLoop.start() to reset.');

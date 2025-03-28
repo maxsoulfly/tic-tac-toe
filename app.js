@@ -139,15 +139,7 @@ const GameLoop = (function () {
 		const isAI = document.querySelector(`#${id}AI`).checked;
 		return { name, isAI };
 	};
-	const start = () => {
-		const { name: name1, isAI: isAI1 } = getPlayerInput("player1");
-		const { name: name2, isAI: isAI2 } = getPlayerInput("player2");
-		GameController.setupPlayers(name1, isAI1, name2, isAI2);
-
-		GameController.resetGame();
-		DisplayController.printBoard();
-		DisplayController.gameStart(GameController.getActivePlayer().getName());
-
+	const maybeTriggerAI = () => {
 		if (GameController.getActivePlayer().isAI()) {
 			setTimeout(() => {
 				AIController.makeMove(
@@ -157,20 +149,22 @@ const GameLoop = (function () {
 			}, 300);
 		}
 	};
+	const start = () => {
+		const { name: name1, isAI: isAI1 } = getPlayerInput("player1");
+		const { name: name2, isAI: isAI2 } = getPlayerInput("player2");
+		GameController.setupPlayers(name1, isAI1, name2, isAI2);
+
+		GameController.resetGame();
+		DisplayController.printBoard();
+		DisplayController.gameStart(GameController.getActivePlayer().getName());
+
+		maybeTriggerAI();
+	};
 
 	const step = (index) => {
 		const result = GameController.playRound(index);
-		if (
-			!GameController.isGameOver() &&
-			GameController.getActivePlayer().isAI()
-		) {
-			setTimeout(() => {
-				AIController.makeMove(
-					GameController.getActivePlayer(),
-					GameBoard.getBoard()
-				);
-			}, 300); // Add a short delay so it feels natural
-		}
+
+		maybeTriggerAI();
 		const playerName = GameController.getActivePlayer().getName();
 		switch (result) {
 			case "invalid":

@@ -107,6 +107,8 @@ const GameController = (function () {
 				board[a] === board[c]
 			) {
 				gameOver = true;
+				DisplayController.colorWinningMove(combo);
+
 				return true;
 			}
 		}
@@ -286,6 +288,13 @@ const DisplayController = (function () {
 		});
 	};
 
+	const colorWinningMove = (winningCombo) => {
+		winningCombo.forEach((index) => {
+			const cell = document.querySelector(`[data-index="${index}"]`);
+			cell.classList.add("win");
+		});
+	};
+
 	return {
 		invalid,
 		win,
@@ -300,6 +309,7 @@ const DisplayController = (function () {
 
 		renderBoard,
 		updateBoard,
+		colorWinningMove,
 	};
 })();
 

@@ -11,6 +11,8 @@
 	--primary-color: #3498db;
 	--secondary-color: #2ecc71;
 	--background-color: #ecf0f1;
+	--cell-filled-color: #eaebeb;
+	--cell-hover-color: #cddbdf;
 	--hover-primary-color: #2980b9;
 	--hover-secondary-color: #27ae60;
 	--active-color: #3e8e41;
@@ -44,6 +46,22 @@ body {
 	cursor: pointer;
 	user-select: none;
 	box-sizing: border-box;
+
+	transition: background-color 0.3s ease, transform 0.2s ease;
+}
+.cell:hover {
+	background-color: var(--cell-hover-color);
+	transform: scale(1.05);
+}
+.cell.filled{
+	background-color: var(--cell-filled-color);
+	/* color: white; */
+	font-weight: bold;
+}
+.cell.filled:hover {
+	background-color: transparent;
+	transform: none;
+	cursor: default;
 }
 
 button {

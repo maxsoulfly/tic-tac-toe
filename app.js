@@ -199,6 +199,7 @@ const GameLoop = (function () {
 				const nextPlayerName =
 					GameController.getActivePlayer().getName();
 				DisplayController.nextTurn(nextPlayerName);
+				
 				maybeTriggerAI();
 				break;
 		}
@@ -292,6 +293,9 @@ const DisplayController = (function () {
 		cells.forEach((cell) => {
 			const index = cell.dataset.index;
 			cell.textContent = GameBoard.getCell(index);
+			if (!GameBoard.isEmptyCell(index)) {
+				cell.classList.add("filled");
+			}
 		});
 	};
 

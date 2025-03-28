@@ -56,7 +56,9 @@ const GameController = (function () {
 
     const getActivePlayer = () => activePlayer;
     const getPlayers = () => [player1, player2];
-
+    const getOpponent = (player) => {
+        return player === player1 ? player2 : player1;
+    };
     const togglePlayer = () => {
         if (activePlayer === player1) activePlayer = player2;
         else activePlayer = player1;
@@ -131,6 +133,7 @@ const GameController = (function () {
         setupPlayers,
         getActivePlayer,
         getPlayers,
+        getOpponent,
         togglePlayer,
         playRound,
         resetGame,
@@ -382,7 +385,12 @@ const InputController = (function () {
 const AIController = (function () {
     const makeMove = (currentPlayer, board, strategy) => {
         if (!GameController.isGameOver() && currentPlayer.isAI()) {
-            const index = randomMove(board);
+            // const index = randomMove(board);
+            const aiMark = currentPlayer.getMark();
+            const humanMark =
+                GameController.getOpponent(currentPlayer).getMark();
+            const index = minimaxMove(board, aiMark, humanMark);
+
             GameLoop.step(index);
             console.log('AI Player Move');
         }
@@ -431,7 +439,35 @@ const AIController = (function () {
     const isEmptyCellSim = (board, index) => {
         return board[index] === GameBoard.getEmptyCellMark();
     };
-    const minimaxMove = (board, aiMark, humanMark) => {};
+
+    const getAvailableIndices = (board) => {
+        return Array.from({ length: board.length }, (_, i) => i).filter(
+            (index) => isEmptyCellSim(board, index)
+        );
+    };
+
+    const minimaxMove = (board, aiMark, humanMark) => {
+        let bestScore = -Infinity;
+        let bestMove = null; // Get all available moves
+
+        const availableIndices = getAvailableIndices(board);
+        availableIndices.forEach((index) => {
+            board[index] = aiMark;
+            const score = minimax(
+                board,
+                0, // depth starts at 0
+                false, // human's turn next
+                aiMark,
+                humanMark
+            );
+            board[index] = GameBoard.getEmptyCellMark(); // Undo the move
+            if (score > bestScore) {
+                bestScore = score;
+                bestMove = index;
+            }
+        });
+        return bestMove;
+    };
 
     const minimax = (board, depth, isMaximizing, aiMark, humanMark) => {
         // Base case: Check if the game is over and return a score
@@ -445,10 +481,7 @@ const AIController = (function () {
         let bestScore = isMaximizing ? -Infinity : +Infinity;
 
         // Get all available moves
-        const allIndices = Array.from({ length: board.length }, (_, i) => i);
-        const availableIndices = allIndices.filter((index) =>
-            isEmptyCellSim(board, index)
-        );
+        const availableIndices = getAvailableIndices(board);
 
         // Simulate each move and recursively calculate scores
         availableIndices.forEach((index) => {

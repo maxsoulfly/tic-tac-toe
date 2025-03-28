@@ -62,6 +62,10 @@ const GameController = (function () {
 	const playRound = (index) => {
 		if (gameOver) return false;
 
+		if (getActivePlayer().isAI()) {
+			AIController.makeMove(currentPlayer, board);
+		}
+
 		const mark = getActivePlayer().getMark();
 		if (!GameBoard.isEmptyCell(index)) return "invalid";
 
@@ -151,6 +155,14 @@ const GameLoop = (function () {
 
 	const step = (index) => {
 		const result = GameController.playRound(index);
+		if (!gameOver && GameController.getActivePlayer().isAI()) {
+			setTimeout(() => {
+				AIController.makeMove(
+					GameController.getActivePlayer(),
+					GameBoard.getBoard()
+				);
+			}, 300); // Add a short delay so it feels natural
+		}
 		const playerName = GameController.getActivePlayer().getName();
 		switch (result) {
 			case "invalid":
@@ -309,6 +321,7 @@ const AIController = (function () {
 		if (currentPlayer.isAI()) {
 			const index = randomMove(board);
 			GameLoop.step(index);
+			console.log("AI Player Move");
 		}
 	};
 	const randomMove = (board) => {

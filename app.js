@@ -388,9 +388,12 @@ const AIController = (function () {
             const aiMark = currentPlayer.getMark();
             const humanMark =
                 GameController.getOpponent(currentPlayer).getMark();
+
+            const available = getAvailableIndices(board);
+
             const index =
-                strategy === 'random'
-                    ? randomMove(board)
+                available.length === 9
+                    ? randomMove(board) // Board is empty, make random first move
                     : minimaxMove(board, aiMark, humanMark);
 
             GameLoop.step(index);

@@ -147,6 +147,15 @@ const GameLoop = (function () {
 		GameController.resetGame();
 		DisplayController.printBoard();
 		DisplayController.gameStart(GameController.getActivePlayer().getName());
+
+		if (GameController.getActivePlayer().isAI()) {
+			setTimeout(() => {
+				AIController.makeMove(
+					GameController.getActivePlayer(),
+					GameBoard.getBoard()
+				);
+			}, 300);
+		}
 	};
 
 	const step = (index) => {

@@ -152,6 +152,7 @@ const GameLoop = (function () {
 		) {
 			if (aiTimeout) clearTimeout(aiTimeout); // 🧼 cancel previous
 
+			DisplayController.disableBoard();
 			DisplayController.setStatus("AI is thinking...");
 
 			aiTimeout = setTimeout(() => {
@@ -160,6 +161,10 @@ const GameLoop = (function () {
 					GameBoard.getBoard()
 				);
 			}, 300);
+		}
+		else {
+			
+			DisplayController.enableBoard();
 		}
 	};
 	const start = () => {
@@ -216,40 +221,42 @@ const DisplayController = (function () {
 	const invalid = () => {
 		const message = "Cell already taken!";
 		console.log(message);
-		DisplayController.setStatus(message);
+		setStatus(message);
 	};
 	const draw = () => {
 		const message = "<b>It's a draw!</b> Click 'New Game' to play again.";
 		console.log(message);
-		DisplayController.setStatus(message);
+		setStatus(message);
+		disableBoard();
 	};
 	const win = (playerName) => {
 		const message = `<b>${playerName} wins!</b> Click 'New Game' to play again.`;
 		console.log(message);
-		DisplayController.setStatus(message);
+		setStatus(message);
+		disableBoard();
 	};
 	const nextTurn = (playerName) => {
 		const message = `${playerName} turn!`;
 		console.log(message + " Tip: Use GameLoop.step(index) to play.");
-		DisplayController.setStatus(message);
+		setStatus(message);
 	};
 	const welcome = () => {
 		const message = "Hi there! Welcome to Tic-Tac-Toe!";
 		console.log(message + " Use GameLoop.start() to play.");
-		DisplayController.setStatus(message);
+		setStatus(message);
 	};
 	const gameStart = (playerName) => {
 		const message = `New game started! ${playerName}'s turn.`;
 		console.log(message + "\nTip: Use GameLoop.step(index) to play.");
-		DisplayController.setStatus(message);
+		setStatus(message);
 	};
 	const restart = () => {
 		console.log("Use GameLoop.start() to reset.");
-		DisplayController.setStatus("Click 'New Game' to reset.");
+		setStatus("Click 'New Game' to reset.");
 	};
 	const info = (message) => {
 		console.log(message);
-		DisplayController.setStatus(message);
+		setStatus(message);
 	};
 
 	const setStatus = (message) => {
@@ -306,6 +313,15 @@ const DisplayController = (function () {
 		});
 	};
 
+	const disableBoard = () => {
+		const gameBoard = document.querySelector("#gameBoard");
+		gameBoard.classList.add("disabled");
+	};
+	const enableBoard = () => {
+		const gameBoard = document.querySelector("#gameBoard");
+		gameBoard.classList.remove("disabled");
+	};
+
 	return {
 		invalid,
 		win,
@@ -321,6 +337,8 @@ const DisplayController = (function () {
 		renderBoard,
 		updateBoard,
 		colorWinningMove,
+		disableBoard,
+		enableBoard,
 	};
 })();
 
@@ -337,7 +355,9 @@ const InputController = (function () {
 
 		const resetButtonBtn = document.querySelector("#resetButton");
 		resetButtonBtn.addEventListener("click", () => {
+			
 			GameLoop.start();
+			DisplayController.enableBoard();
 			DisplayController.renderBoard();
 			InputController.init();
 		});
@@ -377,5 +397,6 @@ const AIController = (function () {
 })();
 
 // Init
+DisplayController.disableBoard();
 DisplayController.renderBoard();
 InputController.init();

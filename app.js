@@ -134,11 +134,14 @@ const GameController = (function () {
 // GameLoop
 const GameLoop = (function () {
 	// Private: any setup or helpers
+	const getPlayerInput = (id) => {
+		const name = document.querySelector(`#${id}`).value;
+		const isAI = document.querySelector(`#${id}AI`).checked;
+		return { name, isAI };
+	};
 	const start = () => {
-		const name1 = document.querySelector("#player1").value;
-		const name2 = document.querySelector("#player2").value;
-		const isAI1 = document.querySelector("#player1AI").checked;
-		const isAI2 = document.querySelector("#player2AI").checked;
+		const { name: name1, isAI: isAI1 } = getPlayerInput("player1");
+		const { name: name2, isAI: isAI2 } = getPlayerInput("player2");
 		GameController.setupPlayers(name1, isAI1, name2, isAI2);
 
 		GameController.resetGame();

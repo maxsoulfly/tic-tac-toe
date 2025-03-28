@@ -138,6 +138,8 @@ const GameController = (function () {
 // GameLoop
 const GameLoop = (function () {
 	// Private: any setup or helpers
+	let aiTimeout = null;
+
 	const getPlayerInput = (id) => {
 		const name = document.querySelector(`#${id}`).value;
 		const isAI = document.querySelector(`#${id}AI`).checked;
@@ -148,9 +150,11 @@ const GameLoop = (function () {
 			!GameController.isGameOver() &&
 			GameController.getActivePlayer().isAI()
 		) {
+			if (aiTimeout) clearTimeout(aiTimeout); // 🧼 cancel previous
+
 			DisplayController.setStatus("AI is thinking...");
 
-			setTimeout(() => {
+			aiTimeout = setTimeout(() => {
 				AIController.makeMove(
 					GameController.getActivePlayer(),
 					GameBoard.getBoard()
@@ -159,6 +163,9 @@ const GameLoop = (function () {
 		}
 	};
 	const start = () => {
+		if (aiTimeout) clearTimeout(aiTimeout);
+		aiTimeout = null;
+
 		const { name: name1, isAI: isAI1 } = getPlayerInput("player1");
 		const { name: name2, isAI: isAI2 } = getPlayerInput("player2");
 		GameController.setupPlayers(name1, isAI1, name2, isAI2);

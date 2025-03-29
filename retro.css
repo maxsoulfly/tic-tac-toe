@@ -59,6 +59,7 @@ button:hover {
 input[type='text'] {
     background-color: var(--button-bg);
     color: var(--text-color);
+    width: 180px;
     border: 2px solid var(--text-color);
     font-family: var(--font-family);
     font-size: 0.6rem;
